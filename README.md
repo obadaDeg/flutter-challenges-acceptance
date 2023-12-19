@@ -51,4 +51,4 @@ Included comments and documentation within the code to explain the logic and fun
 # How to Run
 Clone the repository.
 Open the terminal and navigate to the project directory.
-Run the Dart application using the command: dart main.dart (replace main.dart with the actual name of your main Dart file).
+Run the Dart application using the command: dart TicTacToe.dart.
