@@ -12,5 +12,17 @@ This branch focuses on three fundemantal data structures in Datr:
 3. Linked List.
 
 
-# Features:
+# Challenges:
+
+**Stack Challenges**
+1. Reversing a List.
+2. Balanceing the Parantheses.
+
+**Linked List Challenges**
+1. Printing the revered list.
+2. Finding the middle node.
+3. Reversing the list itself.
+4. Remove list itself.
+
+
 
