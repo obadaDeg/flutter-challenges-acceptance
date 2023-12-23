@@ -1,4 +1,5 @@
 import 'stack.dart';
+import 'LinkedList.dart';
 
 void stackTest() {
   Stack<int> intStack = Stack<int>();
@@ -63,4 +64,125 @@ void isBalancedTest() {
   print(isBalanced('(()()(()'));
   print(isBalanced('())('));
   print(isBalanced(')('));
+}
+
+void linkedListTest() {
+  LinkedList<int> linkedList = LinkedList<int>();
+
+  linkedList.push(1);
+  linkedList.push(2);
+  linkedList.push(3);
+
+  print(linkedList);
+
+  linkedList.append(4);
+  linkedList.append(5);
+  linkedList.append(6);
+
+  print(linkedList);
+
+  linkedList.insertAfter(linkedList.head!, 7);
+  linkedList.insertAfter(linkedList.head!, 8);
+  linkedList.insertAfter(linkedList.head!, 9);
+
+  print(linkedList);
+
+  linkedList.pop();
+  print(linkedList);
+  print(linkedList.pop());
+  print(linkedList);
+  print(linkedList.pop());
+
+  print(linkedList);
+
+  linkedList.removeLast();
+  print(linkedList.removeLast());
+  print(linkedList.removeLast());
+
+  print(linkedList);
+
+  print(linkedList.removeAfter(linkedList.head!));
+  print(linkedList.removeAfter(linkedList.head!));
+  print(linkedList.removeAfter(linkedList.head!));
+
+  print(linkedList);
+}
+
+void testPrintReverseLinkedList() {
+  LinkedList<int> linkedList = LinkedList<int>();
+
+  linkedList.append(1);
+  linkedList.append(2);
+  linkedList.append(3);
+  linkedList.append(4);
+  linkedList.append(5);
+
+  printReverseLinkedList(linkedList);
+  print(linkedList);
+}
+
+void testFindMiddleNode() {
+  LinkedList<int> linkedList = LinkedList<int>();
+
+  linkedList.append(1);
+  linkedList.append(2);
+  linkedList.append(3);
+  linkedList.append(4);
+  linkedList.append(5);
+
+  print("The middle node is: ${findMiddleNode(linkedList)}");
+  print('linkedList: $linkedList');
+
+  linkedList.append(6);
+
+  print("The middle node is: ${findMiddleNode(linkedList)}");
+  print('linkedList: $linkedList');
+
+  linkedList.append(7);
+
+  print("The middle node is: ${findMiddleNode(linkedList)}");
+  print('linkedList: $linkedList');
+
+  linkedList.append(8);
+
+  print("The middle node is: ${findMiddleNode(linkedList)}");
+  print('linkedList: $linkedList');
+}
+
+
+void testReverseLinkedList() {
+  LinkedList<int> linkedList = LinkedList<int>();
+
+  linkedList.append(1);
+  linkedList.append(2);
+  linkedList.append(3);
+  linkedList.append(4);
+  linkedList.append(5);
+
+  print('linkedList: $linkedList');
+  reverseLinkedList(linkedList);
+  print('linkedList: $linkedList');
+}
+
+void testRemoveAllOccurence() {
+  LinkedList<int> linkedList = LinkedList<int>();
+
+  linkedList.append(1);
+  linkedList.append(2);
+  linkedList.append(3);
+  linkedList.append(4);
+  linkedList.append(5);
+  linkedList.append(3);
+  linkedList.append(6);
+  linkedList.append(3);
+  linkedList.append(7);
+  linkedList.append(8);
+  linkedList.append(3);
+  linkedList.append(9);
+  linkedList.append(10);
+  linkedList.append(3);
+
+  print('linkedList: $linkedList');
+  removeAllOccurrences(linkedList, 3);
+  print('linkedList: $linkedList');
 }
