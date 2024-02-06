@@ -1,13 +1,25 @@
-# flutter-challenges
-# Quiz App
+# Flutter Favorite & Profile Pages
 
-This branch for creating the Quiz app required for Flutter training, which will cover the first and second tasks,
+## Overview
 
-The first task asks to show a text and the score after supmiting the quiz, which will test our ability to control the widgets on the current screen, how to show it and how to display it either with the ternary operator or with the if-else.
+This task includes the development of two main pages for a food delivery app: the Favorite page and the Profile page, using Flutter.
 
+## Favorite Page
 
-The second task consist of 4 sub-tasks:
-1. Control the style form of a text, reduce the opacity.
-2. Viewing the correct answers.
-3. Validate the next button navigation.
-4. Design the Congrats page.
+- **Features:** Showcases favorite products in a carousel and list format. Includes "Hot Offer" highlights, an "Order Now" button, and allows users to remove items from favorites.
+- **Implementation:** Uses `FlutterCarousel` for the carousel and `ListView.builder` for listing favorite products, with product details managed by a `Product` model.
+
+## Profile Page
+
+- **Features:** Displays user info (profile picture, name, contact number), options to edit the profile, view orders, access settings, and log out. Includes "Call Us" and "Email Us" functionalities.
+- **Implementation:** Built as a `StatelessWidget`, utilizing `ListTile` for menu options, and modal dialogs for contacting support.
+
+## Setup
+
+1. Clone the repo and navigate to the project directory.
+2. Run `flutter pub get` to install dependencies.
+3. Execute `flutter run` to start the app.
+
+## Dependencies
+
+- flutter_carousel_widget
