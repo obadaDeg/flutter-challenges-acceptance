@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/models/product.dart';
-import 'package:food_delivery_app/utils/app_routes.dart';
-import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:flutter_challenges_acceptance/models/product_item_model.dart';
+import 'package:flutter_challenges_acceptance/utils/app_colors.dart';
+import 'package:flutter_challenges_acceptance/utils/route/app_routes.dart';
 
 class FavoritesPage extends StatefulWidget {
-  const FavoritesPage({Key? key}) : super(key: key);
+  const FavoritesPage({super.key});
 
   @override
   State<FavoritesPage> createState() => _FavoritesPageState();
@@ -13,161 +13,66 @@ class FavoritesPage extends StatefulWidget {
 class _FavoritesPageState extends State<FavoritesPage> {
   @override
   Widget build(BuildContext context) {
-    final orientation = MediaQuery.of(context).orientation;
-
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(
-                    'https://i.pinimg.com/564x/5d/8a/e4/5d8ae4c7f9639f2a67db4c28a9b5b306.jpg'),
-                fit: BoxFit.cover,
-              ),
+      body: GridView.builder(
+        padding: EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 10.0), // Adjust the padding for proper alignment
+        itemCount:
+            Favorites.length, // Make sure Favorites is a list of your items
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // Adjust the number of items per row
+          childAspectRatio: 0.8, // Adjust the aspect ratio of the items
+          crossAxisSpacing: 10, // Adjust the spacing between items horizontally
+          mainAxisSpacing: 10, // Adjust the spacing between items vertically
+        ),
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () => Navigator.of(context, rootNavigator: true)
+                .pushNamed(
+                  AppRoutes.productDetails,
+                  arguments:
+                      Favorites[index], // Assuming this is how you pass details
+                )
+                .then((value) => setState(() {})),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Image.network(
+                    Favorites[index].imgUrl,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Text(
+                  Favorites[index].name,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+                Text(
+                  '${Favorites[index].category} - \$${Favorites[index].price}',
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        fontWeight: FontWeight.normal,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+                IconButton(
+                  onPressed: () {
+                    setState(
+                      () {
+                        Favorites.removeAt(
+                            index); // Update to remove the item correctly
+                      },
+                    );
+                  },
+                  icon: const Icon(Icons.favorite),
+                  color: AppColors.red,
+                ),
+              ],
             ),
-          ),
-          Column(
-            children: [
-              favProducts.isEmpty
-                  ? const SizedBox()
-                  : Text('Hot Offer!',
-                      style: Theme.of(context).textTheme.labelLarge),
-              favProducts.isEmpty
-                  ? const SizedBox()
-                  : Expanded(
-                      flex: 1,
-                      child: FlutterCarousel.builder(
-                        itemCount: favProducts.length,
-                        itemBuilder: (BuildContext context, int itemIndex,
-                                int pageViewIndex) =>
-                            Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Theme.of(context).primaryColor,
-                                width: 2.0,
-                              ),
-                              borderRadius: BorderRadius.circular(10.0),
-                              color: const Color.fromRGBO(255, 255, 255, 0.498),
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    favProducts[itemIndex % favProducts.length]
-                                        .imgUrl),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                        options: CarouselOptions(
-                          height: MediaQuery.of(context).size.height * 0.5,
-                          autoPlay: true,
-                          autoPlayInterval: const Duration(seconds: 2),
-                        ),
-                      ),
-                    ),
-              favProducts.isEmpty
-                  ? const SizedBox()
-                  : ElevatedButton(
-                      onPressed: () => {}, child: const Text('Order Now!')),
-              Expanded(
-                flex: favProducts.isEmpty ? 3 : 2,
-                child: favProducts.isEmpty
-                    ? const Center(
-                        child: Text(
-                          'No favorite products yet.',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
-                    : ListView.builder(
-                        itemCount: favProducts.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                              left: 15.0,
-                              right: 15.0,
-                            ),
-                            child: Card(
-                              color: Colors.white.withOpacity(0.8),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 20.0,
-                                ),
-                                child: ListTile(
-                                    onTap: () {
-                                      Navigator.of(context)
-                                          .pushNamed(
-                                            AppRoutes.productDetails,
-                                            arguments: favProducts[index],
-                                          )
-                                          .then((value) => setState(() {}));
-                                    },
-                                    leading: Image.network(
-                                      favProducts[index].imgUrl,
-                                      height: 100,
-                                      width: 70,
-                                      fit: BoxFit.fill,
-                                    ),
-                                    title: Text(
-                                      favProducts[index].name,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium!
-                                          .copyWith(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                    ),
-                                    subtitle: Text(
-                                      '${favProducts[index].category.title} - \$${favProducts[index].price}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge!
-                                          .copyWith(
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                    ),
-                                    trailing: Column(
-                                      children: [
-                                        orientation == Orientation.portrait
-                                            ? IconButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    favProducts.remove(
-                                                        favProducts[index]);
-                                                  });
-                                                },
-                                                icon:
-                                                    const Icon(Icons.favorite),
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                              )
-                                            : TextButton.icon(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    favProducts.remove(
-                                                        favProducts[index]);
-                                                  });
-                                                },
-                                                icon:
-                                                    const Icon(Icons.favorite),
-                                                label: const Text('Favorite'),
-                                              ),
-                                      ],
-                                    )),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-              ),
-            ],
-          ),
-        ],
+          );
+        },
       ),
     );
   }

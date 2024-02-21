@@ -1,10 +1,11 @@
-import 'dart:async';
-
+import 'package:flutter_challenges_acceptance/utils/app_assets.dart';
+import 'package:flutter_challenges_acceptance/utils/app_colors.dart';
+import 'package:flutter_challenges_acceptance/views/pages/cart_page.dart';
+import 'package:flutter_challenges_acceptance/views/pages/favorites_page.dart';
+import 'package:flutter_challenges_acceptance/views/pages/home_page.dart';
+import 'package:flutter_challenges_acceptance/views/pages/profle_page.dart';
 import 'package:flutter/material.dart';
-import 'package:food_delivery_app/utils/app_colors.dart';
-import 'package:food_delivery_app/views/pages/favorites_page.dart';
-import 'package:food_delivery_app/views/pages/home_page.dart';
-import 'package:food_delivery_app/views/pages/profile_page.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class CustomBottomNavbar extends StatefulWidget {
   const CustomBottomNavbar({super.key});
@@ -13,106 +14,123 @@ class CustomBottomNavbar extends StatefulWidget {
   State<CustomBottomNavbar> createState() => _CustomBottomNavbarState();
 }
 
-class _CustomBottomNavbarState extends State<CustomBottomNavbar>
-    with WidgetsBindingObserver {
-  int currentPageIndex = 0;
+class _CustomBottomNavbarState extends State<CustomBottomNavbar> {
+  late PersistentTabController _controller;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    _controller = PersistentTabController();
   }
 
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
+  List<Widget> _buildScreens() {
+    return const [
+      HomePage(),
+      FavoritesPage(),
+      CartPage(),
+      ProfilePage(),
+    ];
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.paused) {
-      debugPrint('App is paused');
-    } else if (state == AppLifecycleState.resumed) {
-      debugPrint('App is resumed');
-    }
+  List<PersistentBottomNavBarItem> _navBarsItems() {
+    return [
+      PersistentBottomNavBarItem(
+        inactiveIcon: const Icon(Icons.home_outlined),
+        icon: const Icon(Icons.home_filled),
+        title: "Home",
+        activeColorPrimary: AppColors.primary,
+        inactiveColorPrimary: AppColors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        inactiveIcon: const Icon(Icons.favorite_border),
+        icon: const Icon(Icons.favorite),
+        title: "Favorites",
+        activeColorPrimary: AppColors.primary,
+        inactiveColorPrimary: AppColors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        inactiveIcon: const Icon(Icons.shopping_cart_outlined),
+        icon: const Icon(Icons.shopping_cart),
+        title: "Cart",
+        activeColorPrimary: AppColors.primary,
+        inactiveColorPrimary: AppColors.grey,
+      ),
+      PersistentBottomNavBarItem(
+        inactiveIcon: const Icon(Icons.person_outline),
+        icon: const Icon(Icons.person),
+        title: "Profile",
+        activeColorPrimary: AppColors.primary,
+        inactiveColorPrimary: AppColors.grey,
+      ),
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
-      drawer: const Drawer(
-        child: Center(
-          child: Text('Inside the drawer!'),
-        ),
-      ),
       appBar: AppBar(
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications),
+        leading: const Padding(
+          padding: EdgeInsets.all(4.0),
+          child: CircleAvatar(
+            radius: 30,
+            backgroundImage: NetworkImage(AppAssets.userImage),
           ),
-        ],
+        ),
         title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Current Location',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+              'Hi, Tarek',
+              style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            Text(
+              'Let\'s go shopping!',
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(
                     color: AppColors.grey,
                   ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.location_on,
-                  color: AppColors.green,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  'Giza, Egypt',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ],
-            ),
           ],
         ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.search),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.notifications_none),
+          ),
+        ],
       ),
-      bottomNavigationBar: size.width >= 800
-          ? null
-          : NavigationBar(
-              onDestinationSelected: (int index) {
-                setState(() {
-                  currentPageIndex = index;
-                });
-              },
-              selectedIndex: currentPageIndex,
-              destinations: const <Widget>[
-                NavigationDestination(
-                  selectedIcon: Icon(Icons.home),
-                  icon: Icon(Icons.home_outlined),
-                  label: 'Home',
-                ),
-                NavigationDestination(
-                  selectedIcon: Icon(Icons.favorite),
-                  icon: Icon(Icons.favorite_border),
-                  label: 'Favorites',
-                ),
-                NavigationDestination(
-                  selectedIcon: Icon(Icons.person),
-                  icon: Icon(Icons.person_outline),
-                  label: 'Profile',
-                ),
-              ],
-            ),
-      body: const <Widget>[
-        HomePage(),
-        FavoritesPage(),
-        ProfilePage(),
-      ][currentPageIndex],
+      body: PersistentTabView(
+        context,
+        controller: _controller,
+        screens: _buildScreens(),
+        items: _navBarsItems(),
+        confineInSafeArea: true,
+        stateManagement: false,
+        resizeToAvoidBottomInset:
+            true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+        hideNavigationBarWhenKeyboardShows:
+            true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+        popAllScreensOnTapOfSelectedTab: true,
+        popActionScreens: PopActionScreensType.all,
+        itemAnimationProperties: const ItemAnimationProperties(
+          // Navigation Bar's items animation properties.
+          duration: Duration(milliseconds: 200),
+          curve: Curves.ease,
+        ),
+        screenTransitionAnimation: const ScreenTransitionAnimation(
+          // Screen transition animation on change of selected tab.
+          animateTabTransition: true,
+          curve: Curves.ease,
+          duration: Duration(milliseconds: 200),
+        ),
+        navBarStyle:
+            NavBarStyle.style3, // Choose the nav bar style with this property.
+      ),
     );
   }
 }
