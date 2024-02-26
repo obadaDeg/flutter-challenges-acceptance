@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "188363563752",
+    "project_id": "e-commerce-flutter-4d2aa",
+    "storage_bucket": "e-commerce-flutter-4d2aa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188363563752:android:35e4002316eee4a14d9f5d",
+        "android_client_info": {
+          "package_name": "com.example.food_delivery_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB993RThX0Wo_Gcz3jdMHqA5QzFxFAfo6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

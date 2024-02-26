@@ -1,10 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_challenges_acceptance/firebase_options.dart';
 import 'package:flutter_challenges_acceptance/utils/app_theme.dart';
 import 'package:flutter_challenges_acceptance/utils/route/app_router.dart';
 import 'package:flutter_challenges_acceptance/utils/route/app_routes.dart';
 import 'package:flutter_challenges_acceptance/views/pages/custom_bottom_navbar.dart';
-import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
