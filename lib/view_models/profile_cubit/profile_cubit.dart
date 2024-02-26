@@ -1,31 +1,30 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_challenges_acceptance/models/user_model.dart';
 import 'package:flutter_challenges_acceptance/views/pages/profle_page.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 class ProfileCubit extends Cubit<ProfileState> {
-  bool _isClosed = false;
+  final String userId;
 
-  ProfileCubit() : super(ProfileInitial());
-
-  @override
-  Future<void> close() {
-    _isClosed = true;
-    return super.close();
-  }
+  ProfileCubit(this.userId) : super(ProfileInitial());
 
   void getProfileData() async {
-    if (_isClosed) return;
     emit(ProfileLoading());
     try {
-      final profile = profileList;
-      await Future.delayed(const Duration(seconds: 1));
-      if (_isClosed) return;
-      emit(ProfileLoaded(profile));
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+      final user = User.fromJson(userDoc.data()!);
+      emit(ProfileLoaded(user));
     } catch (e) {
-      if (_isClosed) return;
       emit(ProfileError(e.toString()));
     }
   }
 }
+
 
 sealed class ProfileState {}
 
@@ -34,7 +33,7 @@ class ProfileInitial extends ProfileState {}
 class ProfileLoading extends ProfileState {}
 
 class ProfileLoaded extends ProfileState {
-  final List<ProfileListTile> profile;
+  final User profile;
   ProfileLoaded(this.profile);
 }
 
