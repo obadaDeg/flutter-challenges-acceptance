@@ -1,29 +1,40 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_challenges_acceptance/models/user_model.dart';
-import 'package:flutter_challenges_acceptance/views/pages/profle_page.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final String userId;
+  bool _isClosed = false;
 
   ProfileCubit(this.userId) : super(ProfileInitial());
 
+  void safeEmit(ProfileState state) {
+    if (!_isClosed) {
+      emit(state);
+    }
+  }
+
   void getProfileData() async {
-    emit(ProfileLoading());
+    safeEmit(ProfileLoading());
     try {
       final userDoc = await FirebaseFirestore.instance
-          .collection('users')
+          .collection('Users')
           .doc(userId)
           .get();
       final user = User.fromJson(userDoc.data()!);
-      emit(ProfileLoaded(user));
+      safeEmit(ProfileLoaded(user));
     } catch (e) {
-      emit(ProfileError(e.toString()));
+      safeEmit(ProfileError(e.toString()));
     }
   }
+
+  @override
+  Future<void> close() {
+    _isClosed = true;
+    return super.close();
+  }
 }
+
 
 
 sealed class ProfileState {}

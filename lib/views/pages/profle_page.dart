@@ -32,12 +32,12 @@ class ProfilePage extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 25),
                       child: CircleAvatar(
                         radius: 50,
-                        backgroundImage: NetworkImage(user.profileImage),
+                        backgroundImage: NetworkImage(user.profileImage ?? ''),
                       ),
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      '${user.firstName} ${user.lastName}',
+                      '${user.firstName ?? ''} ${user.lastName ?? ''}',
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 20,
@@ -45,7 +45,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      user.email,
+                      user.email ?? '',
                       style: const TextStyle(
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,
