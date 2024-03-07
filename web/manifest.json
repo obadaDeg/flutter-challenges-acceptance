@@ -1,6 +1,6 @@
 {
-    "name": "food_delivery_app",
-    "short_name": "food_delivery_app",
+    "name": "flutter_challenges_acceptance",
+    "short_name": "flutter_challenges_acceptance",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

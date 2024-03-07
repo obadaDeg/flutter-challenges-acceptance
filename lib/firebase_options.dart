@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyB993RThX0Wo_Gcz3jdMHqA5QzFxFAfo6g',
-    appId: '1:188363563752:android:35e4002316eee4a14d9f5d',
+    appId: '1:188363563752:android:16d83b71b52d3f674d9f5d',
     messagingSenderId: '188363563752',
     projectId: 'e-commerce-flutter-4d2aa',
     storageBucket: 'e-commerce-flutter-4d2aa.appspot.com',
@@ -59,10 +59,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAWHbIHfVjrxK-5GOMvJppKFQSB9hXMsXo',
-    appId: '1:188363563752:ios:beb798b61c3b162a4d9f5d',
+    appId: '1:188363563752:ios:7d88bddcd80d00c04d9f5d',
     messagingSenderId: '188363563752',
     projectId: 'e-commerce-flutter-4d2aa',
     storageBucket: 'e-commerce-flutter-4d2aa.appspot.com',
-    iosBundleId: 'com.example.foodDeliveryApp',
+    iosBundleId: 'com.example.flutterChallengesAcceptance',
   );
 }
